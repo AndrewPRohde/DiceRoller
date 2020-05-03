@@ -18,15 +18,14 @@ window = gui.Window('Dice Roller', layout)
 event, values = window.read()
 
 
-def rollresults():
-    while True:
-        rolled = dice[0]
-        window.read()
-        print("These are the returned values " + str(rolled))
+while True:
+    rolled = dice
+    window.read()
+    print("These are the returned values " + str(rolled))
 
-        if event in (None, 'Exit'):
-            break
-    return rolled
+    if event in (None, 'Exit'):
+        break
+
 
 
 window.close()
@@ -39,25 +38,25 @@ window.close()
 
 # quantity = input("How many? ")
 # diceType = input("Which size dice? ")
-if rollresults() == "d2":
+if rolled == "d2":
     result = diceSize.rolld2()
     print(result)
-if rollresults() == "d4":
+if rolled == "d4":
     result = diceSize.rolld4()
     print(str(result))
-elif rollresults() == "d6":
+elif rolled == "d6":
     result = diceSize.rolld6()
     print(str(result))
-elif rollresults() == "d8":
+elif rolled == "d8":
     result = diceSize.rolld8()
     print(str(result))
-elif rollresults() == "d10":
+elif rolled == "d10":
     result = diceSize.rolld10()
     print(str(result))
-elif rollresults() == "d12":
+elif rolled == "d12":
     result = diceSize.rolld12()
     print(str(result))
-elif rollresults() == "d20":
+elif rolled == "d20":
     result = diceSize.rolld20()
     if result == 1:
         print(str(result) + " Critical Fail!")
@@ -65,7 +64,7 @@ elif rollresults() == "d20":
         print(str(result) + " Critical Success!")
     else:
         print(str(result))
-elif rollresults() == "d100":
+elif rolled == "d100":
     result = diceSize.rolld100()
     print(str(result))
 
