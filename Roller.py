@@ -45,6 +45,7 @@ def roll_dice():
             print("Please enter standard die")
         return result
 
+# Gathers each roll and adds to an array
     results = []
     while float(quantity_rolled) > 0:
         rolled = rolldice(choice)
@@ -65,6 +66,7 @@ def roll_dice():
     total = Message(results_window, text="You Rolled: " + str(results))
     total.pack()
 
+# This totals all rolls and adds modifier (if any)
     def add_modifier():
         if modifier_added != 0:
             total_roll = sum(results) + modifier_added
@@ -78,12 +80,14 @@ def quit_loop():
     window.destroy()
 
 
+# Defines the values and creates radio buttons
 dice_dict = {'d2': 0, 'd4': 0, 'd6': 0, 'd8': 0, 'd10': 0, 'd12': 0, 'd20': 0, 'd100': 0}
 for key in dice_dict:
     dice_dict[key] = tk.Radiobutton(frame, text=key, bd=4, width=10)
     dice_dict[key].config(indicatoron=0, variable=size, value=key)
     dice_dict[key].pack(side=LEFT)
 
+# Draws the window
 howmany = Scale(window, from_=1, to=20, orient=HORIZONTAL, label='Quantity', variable=quant).pack()
 modifier = Scale(window, from_=-20, to=20, orient=HORIZONTAL,label='Modifier', variable=mod).pack()
 roll = tk.Button(window, text='Roll', width=25, command=roll_dice).pack(side=LEFT)
