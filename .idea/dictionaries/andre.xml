@@ -1,6 +1,9 @@
 <component name="ProjectDictionaryState">
   <dictionary name="andre">
     <words>
+      <w>dicesize</w>
+      <w>howmany</w>
+      <w>quant</w>
       <w>rolld</w>
       <w>rolldice</w>
       <w>rollresults</w>

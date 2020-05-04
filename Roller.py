@@ -1,72 +1,91 @@
-import numpy as np
-import array
+import tkinter
+
 import diceSize
-import PySimpleGUI as gui
+import numpy
+import tkinter as tk
+from tkinter import *
 
-# Gui build
-dice = ['d2', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100']
-gui.ChangeLookAndFeel('DarkPurple4')
-layout = [[gui.Text('Dice to roll')],
-          [gui.Radio("d2", "DICE", key=dice[0]), gui.Radio("d4", "DICE", key=dice[1]), gui.Radio("d6", "DICE", key=dice[2]), gui.Radio("d8", "DICE", key=dice[3]),
-           gui.Radio("d10", "DICE", key=dice[4]), gui.Radio("d12", "DICE", key=dice[5]), gui.Radio("d20", "DICE", default=True, key=dice[6]),
-           gui.Radio("d100", "DICE", key=dice[7])], [gui.Text('Quantity'), gui.InputText('1')],
-          [gui.Text('Modifier'), gui.Slider(range=(-20, 20), orientation='h', size=(34, 20), default_value=0)],
-          [gui.Button('Roll'), gui.Exit()]]
-
-window = gui.Window('Dice Roller', layout)
-
-event, values = window.read()
+# GUI configuration
+window = tk.Tk()
+window.title('Dice Roller')
+frame = Frame(window).pack()
+dicesize = Label(window, text='Please choose dice size').pack()
+size = tk.StringVar()
+quant = tk.IntVar()
+mod = tk.IntVar()
 
 
-while True:
-    rolled = dice
-    window.read()
-    print("These are the returned values " + str(rolled))
+def roll_dice():
+    print("Dice size is: ", size.get())
+    choice = size.get()
+    quantity_rolled = quant.get()
+    modifier_added = mod.get()
 
-    if event in (None, 'Exit'):
-        break
+    # Logic for determining dice rolls
+
+    def rolldice(choice):
+        result = 0
+        if choice == "d2":
+            result = diceSize.rolld2()
+        elif choice == "d4":
+            result = diceSize.rolld4()
+        elif choice == "d6":
+            result = diceSize.rolld6()
+        elif choice == "d8":
+            result = diceSize.rolld8()
+        elif choice == "d10":
+            result = diceSize.rolld10()
+        elif choice == "d12":
+            result = diceSize.rolld12()
+        elif choice == "d20":
+            result = diceSize.rolld20()
+        elif choice == "d100":
+            result = diceSize.rolld100()
+        else:
+            print("Please enter standard die")
+        return result
+
+    results = []
+    while float(quantity_rolled) > 0:
+        rolled = rolldice(choice)
+        results.append(rolled)
+        quantity_rolled = float(quantity_rolled) - 1
+        if choice == "d20":
+            if rolled == 1:
+                print("You rolled " + str(results) + " Critical Fail!")
+            elif rolled == 20:
+                print("You rolled " + str(results) + " Critical Success!")
+
+    window.update()
+    print(results)
+
+# Window containing roll results
+    results_window = Toplevel()
+    results_window.title("Roll Results")
+    total = Message(results_window, text="You Rolled: " + str(results))
+    total.pack()
+
+    def add_modifier():
+        if modifier_added != 0:
+            total_roll = sum(results) + modifier_added
+            print("This is the total of your roll: " + str(total_roll))
+            return total_roll
+
+    summed_roll = add_modifier()
 
 
-
-window.close()
-
-# text_input = rolled
-# gui.popup('You rolled ', text_input)
-
-# button, (diceType) = form.Layout(layout).Read()
+def quit_loop():
+    window.destroy()
 
 
-# quantity = input("How many? ")
-# diceType = input("Which size dice? ")
-if rolled == "d2":
-    result = diceSize.rolld2()
-    print(result)
-if rolled == "d4":
-    result = diceSize.rolld4()
-    print(str(result))
-elif rolled == "d6":
-    result = diceSize.rolld6()
-    print(str(result))
-elif rolled == "d8":
-    result = diceSize.rolld8()
-    print(str(result))
-elif rolled == "d10":
-    result = diceSize.rolld10()
-    print(str(result))
-elif rolled == "d12":
-    result = diceSize.rolld12()
-    print(str(result))
-elif rolled == "d20":
-    result = diceSize.rolld20()
-    if result == 1:
-        print(str(result) + " Critical Fail!")
-    elif result == 20:
-        print(str(result) + " Critical Success!")
-    else:
-        print(str(result))
-elif rolled == "d100":
-    result = diceSize.rolld100()
-    print(str(result))
+dice_dict = {'d2': 0, 'd4': 0, 'd6': 0, 'd8': 0, 'd10': 0, 'd12': 0, 'd20': 0, 'd100': 0}
+for key in dice_dict:
+    dice_dict[key] = tk.Radiobutton(frame, text=key, bd=4, width=10)
+    dice_dict[key].config(indicatoron=0, variable=size, value=key)
+    dice_dict[key].pack(side=LEFT)
 
-    # diceType = input("Which size dice? ")
-#print(result)
+howmany = Scale(window, from_=1, to=20, orient=HORIZONTAL, label='Quantity', variable=quant).pack()
+modifier = Scale(window, from_=-20, to=20, orient=HORIZONTAL,label='Modifier', variable=mod).pack()
+roll = tk.Button(window, text='Roll', width=25, command=roll_dice).pack(side=LEFT)
+close = tk.Button(window, text='Close', width=25, command=quit_loop).pack(side=RIGHT)
+window.mainloop()
