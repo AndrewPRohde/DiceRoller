@@ -9,3 +9,5 @@ This will open a window containing the application.
 From there you can select the quantity and size die you want to roll along with the modifier to be added to the die.
 Click 'Roll' and your results will display
 Click 'Cancel' and the application will close
+
+[![Run on Repl.it](https://repl.it/badge/github/AndrewPRohde/DiceRoller)](https://repl.it/github/AndrewPRohde/DiceRoller)
