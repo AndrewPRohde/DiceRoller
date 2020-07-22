@@ -3,7 +3,7 @@ import random
 
 # defines the values that can be rolled by each die
 def rolld2():
-    return random.randrange(1,3,1)
+    return random.randrange(1, 3, 1)
 
 
 def rolld4():
